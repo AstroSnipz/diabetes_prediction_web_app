@@ -8,6 +8,8 @@ from io import BytesIO
 # Loading the saved model
 loaded_model = pickle.load(open('7th sem mini project/diabetes/trained_model.sav', 'rb'))
 
+global diagnosis 
+
 # Creating a function for Prediction
 def diabetes_prediction(input_data):
     # Changing the input_data to a numpy array
@@ -16,9 +18,9 @@ def diabetes_prediction(input_data):
     input_data_reshaped = input_data_as_numpy_array.reshape(1, -1)
     prediction = loaded_model.predict(input_data_reshaped)
     if prediction[0] == 0:
-        return 'not diabetic'
+        return 'Not Diabetic'
     else:
-        return 'diabetic'
+        return 'Diabetic'
 
 def generate_pdf_report(patient_info, diagnosis):
     pdf = BytesIO()
@@ -56,7 +58,7 @@ def main():
     st.title('Diabetes Prediction Web App')
 
     # Add an image
-    st.image('7th sem mini project/diabetes/images/img1.jpg', caption='Your Image Caption', use_column_width=True)
+    st.image('7th sem mini project/diabetes/images/img.jpg', caption='Diabetes', use_column_width=True)
 
     # Getting the input data from the user with fade-in animation
     st.subheader('Enter Patient Information:')
@@ -73,11 +75,17 @@ def main():
         Age = st.text_input('Age of the Person', key='age', help="Enter the age of the person")
 
         # Code for Prediction
-        diagnosis = ''
+        
+        diagnosis=''
         
         # Creating a button for Prediction
         if st.form_submit_button('Diabetes Test Result'):
-            diagnosis = diabetes_prediction([Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age])
+            # Convert input values to numeric types
+            input_data = [float(Pregnancies), float(Glucose), float(BloodPressure), float(SkinThickness),
+                          float(Insulin), float(BMI), float(DiabetesPedigreeFunction), float(Age)]
+
+            # Get the diagnosis
+            diagnosis = diabetes_prediction(input_data)
 
     # Display result with fade-in animation
     st.subheader('Diabetes Test Result:')
@@ -96,6 +104,11 @@ def main():
             'pedigree_function': DiabetesPedigreeFunction,
             'age': Age
         }
+        input_data = [float(Pregnancies), float(Glucose), float(BloodPressure), float(SkinThickness),
+                          float(Insulin), float(BMI), float(DiabetesPedigreeFunction), float(Age)]
+
+            # Get the diagnosis
+        diagnosis = diabetes_prediction(input_data)
         pdf, pdf_filename = generate_pdf_report(patient_info, diagnosis)
 
         # Display the PDF

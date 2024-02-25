@@ -56,7 +56,7 @@ def main():
     st.title('Diabetes Prediction Web App')
 
     # Add an image
-    st.image('diabetes/images/img1.jpg', caption='Your Image Caption', use_column_width=True)
+    st.image('7th sem mini project/diabetes/images/img1.jpg', caption='Your Image Caption', use_column_width=True)
 
     # Getting the input data from the user with fade-in animation
     st.subheader('Enter Patient Information:')

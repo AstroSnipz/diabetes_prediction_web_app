@@ -6,7 +6,7 @@ import base64
 from io import BytesIO
 
 # Loading the saved model
-loaded_model = pickle.load(open('diabetes/trained_model.sav', 'rb'))
+loaded_model = pickle.load(open('./trained_model.sav', 'rb'))
 
 # Creating a function for Prediction
 def diabetes_prediction(input_data):
